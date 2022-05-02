@@ -1,0 +1,17 @@
+FROM python:3.8
+ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update && apt-get -y install sudo gettext
+RUN python3 -m pip install --upgrade pip
+RUN /usr/local/bin/python3 -m pip install --upgrade pip
+COPY ./requirements /requirements
+RUN pip3 install -r /requirements/local.txt
+
+RUN groupadd -r django && useradd -r -g django django
+ENV APP_HOME=/app
+RUN mkdir $APP_HOME
+COPY . $APP_HOME
+RUN chown -R django $APP_HOME
+WORKDIR $APP_HOME
+
+USER django

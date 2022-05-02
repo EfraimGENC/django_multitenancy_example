@@ -15,7 +15,7 @@ from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,16 +28,28 @@ SECRET_KEY = 'django-insecure-+wje&f9i^p8e#223@b#)3a2ersul)5vl8dbtdq1p0e7m61+28a
 
 # Application definition
 
-INSTALLED_APPS = [
+SHARED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+
+    'django_tenants',
+
+    'django_multitenancy_example.apps.account',
+)
+
+TENANT_APPS = (
+    'django_multitenancy_example.apps.inventory',
+)
+
+INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
 
 MIDDLEWARE = [
+    'django_tenants.middleware.main.TenantMainMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -46,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'django_multitenancy_example.urls'
 
@@ -74,7 +87,7 @@ WSGI_APPLICATION = 'django_multitenancy_example.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django_tenants.postgresql_backend',
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
@@ -83,6 +96,10 @@ DATABASES = {
         'ATOMIC_REQUESTS': True
     }
 }
+
+DATABASE_ROUTERS = (
+    'django_tenants.routers.TenantSyncRouter',
+)
 
 
 # Password validation
@@ -127,3 +144,27 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Auth
+# https://docs.djangoproject.com/en/3.2/topics/auth/customizing/
+
+AUTH_USER_MODEL = 'account.User'
+# LOGIN_REDIRECT_URL =
+# LOGIN_URL =
+# LOGOUT_REDIRECT_URL =
+PASSWORD_RESET_TIMEOUT = 86400
+
+
+# The “sites” framework
+# https://docs.djangoproject.com/en/4.0/ref/contrib/sites/
+
+SITE_ID = 1
+
+
+# django-tenants & django-tenant-users
+# https://github.com/django-tenants/django-tenants
+# https://github.com/Corvia/django-tenant-users
+
+TENANT_MODEL = "account.Client"
+TENANT_DOMAIN_MODEL = "account.Domain"

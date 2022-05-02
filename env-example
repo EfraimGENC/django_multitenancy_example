@@ -1,0 +1,5 @@
+SECRET_KEY=django-insecure-d8chr6odoz#$6t*qjy8*18%o3rc-hb9eq0^sg49j^=7s)odn8p
+DEBUG=True
+DATABASE_NAME=postgres
+DATABASE_USER=postgres
+DATABASE_PASS=postgres

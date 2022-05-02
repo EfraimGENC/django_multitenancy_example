@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AccountConfig(AppConfig):
+class InventoryConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'django_multitenancy_example.apps.account'
+    name = 'django_multitenancy_example.apps.inventory'
