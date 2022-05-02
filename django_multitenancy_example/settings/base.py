@@ -38,6 +38,7 @@ SHARED_APPS = (
     'django.contrib.staticfiles',
 
     'django_tenants',
+    'django_extensions',
 
     'django_multitenancy_example.apps.account',
 )
