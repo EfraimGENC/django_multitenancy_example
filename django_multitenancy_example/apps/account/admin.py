@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 from django_tenants.admin import TenantAdminMixin
-from .models import Client
+from .models import Client, Domain
 from .forms import UserAdminCreationForm, UserAdminChangeForm
 User = get_user_model()
 
@@ -34,4 +34,9 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(Client)
 class ClientAdmin(TenantAdminMixin, admin.ModelAdmin):
-        list_display = ('name', 'paid_until')
+    list_display = ('name', 'paid_until')
+
+
+@admin.register(Domain)
+class DomainAdmin(admin.ModelAdmin):
+    list_display = ('domain', 'tenant')
