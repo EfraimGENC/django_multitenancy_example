@@ -140,6 +140,9 @@ class Client(TenantMixin, BaseModel):
     paid_until = models.DateField(null=True)
     on_trial = models.BooleanField(default=True)
 
+    auto_create_schema = True
+    auto_drop_schema = True
+
     class Meta:
         verbose_name = _('client')
         verbose_name_plural = _('clients')
