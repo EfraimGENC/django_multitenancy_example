@@ -29,6 +29,7 @@ SECRET_KEY = 'django-insecure-+wje&f9i^p8e#223@b#)3a2ersul)5vl8dbtdq1p0e7m61+28a
 # Application definition
 
 SHARED_APPS = (
+    # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -36,14 +37,22 @@ SHARED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # Multi Tenancy Apps
     'django_tenants',
+    'tenant_users.permissions',
+    'tenant_users.tenants',
     'django_extensions',
-
+    # Project Apps
     'django_multitenancy_example.apps.account',
 )
 
 TENANT_APPS = (
+    # Django Apps
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    # Multi Tenancy Apps
+    'tenant_users.permissions',
+    # Project Apps
     'django_multitenancy_example.apps.inventory',
 )
 
@@ -156,6 +165,10 @@ AUTH_USER_MODEL = 'account.User'
 # LOGOUT_REDIRECT_URL =
 PASSWORD_RESET_TIMEOUT = 86400
 
+AUTHENTICATION_BACKENDS = (
+    'tenant_users.permissions.backend.UserBackend',
+)
+
 
 # The “sites” framework
 # https://docs.djangoproject.com/en/4.0/ref/contrib/sites/
@@ -169,3 +182,16 @@ SITE_ID = 1
 
 TENANT_MODEL = "account.Client"
 TENANT_DOMAIN_MODEL = "account.Domain"
+TENANT_USERS_DOMAIN = "example.com"
+SESSION_COOKIE_DOMAIN = '.example.com'
+
+
+# django_extensions settings
+# https://github.com/django-extensions/django-extensions/blob/main/docs/shell_plus.rst#additional-imports
+
+SHELL_PLUS_IMPORTS = [
+    'from tenant_users.tenants.tasks import provision_tenant',
+    'from tenant_users.tenants.utils import create_public_tenant',
+    'from django_multitenancy_example.apps.account.models import User, Client, Domain',
+]
+
