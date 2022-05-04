@@ -3,6 +3,8 @@
 ## Simple Documentation
 
 ### Install Packed
+[django-tenants](https://github.com/django-tenants/django-tenants) & [django-tenant-users](https://github.com/Corvia/django-tenant-users)
+
 ```python
 pip install django-tenants
 pip install django-tenant-users
