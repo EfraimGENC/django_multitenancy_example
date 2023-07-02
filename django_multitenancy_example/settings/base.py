@@ -41,7 +41,9 @@ SHARED_APPS = (
     'django_tenants',
     'tenant_users.permissions',
     'tenant_users.tenants',
+    # 3th Parts
     'django_extensions',
+    'rest_framework',
     # Project Apps
     'django_multitenancy_example.apps.account',
 )

@@ -11,10 +11,6 @@ from tenant_users.tenants.models import TenantBase
 from tenant_users.tenants.models import UserProfile
 from django_multitenancy_example.core.models import BaseModel
 
-"""
-65
-100
-"""
 
 class User(UserProfile, BaseModel):
 
